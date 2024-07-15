@@ -1,1 +1,887 @@
-place holder
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>AC Demo</title>
+    <link href="/statics/bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/statics/my.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+          <h2 style="text-align: center">Diffusion-Based Method with TTS Guidance for Foreign Accent Conversion<br>
+            <small></small>
+          </h2><br>
+          <h3>Abstract</h3>
+          <p class="lead">
+        Accent conversion (AC) aims to alter the accent of spoken language while preserving the original content and speaker characteristics. While any accent can be selected as a target, foreign accent conversion (FAC) that focuses on L2 speakers is particularly noteworthy due to its wide-ranging applications. Compared to general voice conversion tasks, which focus on speaker conversion, research related to accent conversion is relatively scarce, and the audio quality is often limited. In this article, we introduce a diffusion decoder into the conventional TTS-guided accent conversion framework and propose a phoneme-level acoustic-linguistic alignment strategy. Subjective evaluations on the Chinese-accent source speech confirm that the proposed method outperforms the baseline in terms of speech naturalness, accentedness, and speaker similarity.
+        </p>
+          <p class="lead">You can download all audio files on this page by cloning this annoymous 
+            <a href="https://github.com/diff-fac/diff-fac.github.io">github repository</a>.
+          </p>
+        </div>
+        <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+          <h3>Naturalness</h3>
+          <p class="lead">
+                In this task, we evaluate the naturalness of samples derived from the following systems.
+                </p>
+          <div class="table-responsive" style="overflow-x: scroll">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Speaker</th>
+                  <th scope="col">NCC</th>
+                  <th scope="col">BWC</th>
+                  <th scope="col">LXC</th>
+                  <th scope="col">TXHC</th>
+                  <th scope="col">NCC</th>
+                  <th scope="col">BWC</th>
+                  <th scope="col">LXC</th>
+                  <th scope="col">TXHC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Text</th>
+                  <td>
+                    <p>how could he explain his possession of the sketch.</p>
+                  </td>
+                  <td>
+                    <p>the warden with a quart of champagne.</p>
+                  </td>
+                  <td>
+                    <p>ow, a wild dog, he growled.</p>
+                  </td>
+                  <td>
+                    <p>he cried in such genuine dismay that she broke into hearty laughter.</p>
+                  </td>
+                  <td>
+                    <p>he made no reply as he waited for whittemore to continue.</p>
+                  </td>
+                  <td>
+                    <p>one guess will do, ernest retorted.</p>
+                  </td>
+                  <td>
+                    <p>for that reason le beau had chosen him to fight the big fight.</p>
+                  </td>
+                  <td>
+                    <p>there was pride and strength, the ring of triumph in his voice.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Source</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_a0042-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_a0541-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0152-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_a0239-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_b0020-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_b0462-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0156-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_b0078-source.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">TTS (aligned)</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_a0042-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_a0541-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0152-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_a0239-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_b0020-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_b0462-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0156-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_b0078-tts_aligned.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Baseline</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_a0042-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_a0541-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0152-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_a0239-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_b0020-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_b0462-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0156-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_b0078-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Proposed</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_a0042-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_a0541-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0152-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_a0239-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_b0020-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_b0462-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0156-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_b0078-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Ablation-1</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_a0042-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_a0541-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0152-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_a0239-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_b0020-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_b0462-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0156-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_b0078-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Ablation-2</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_a0042-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_a0541-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0152-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_a0239-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/NCC-arctic_b0020-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/BWC-arctic_b0462-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/LXC-arctic_b0156-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/naturalness/TXHC-arctic_b0078-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="lead">* please scroll horizontally to explore additional columns in the table.</p>
+        </div>
+        <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+          <h3>Accentedness Reduction</h3>
+          <p class="lead">
+                In this task, we evaluate the accentedness reduction achieved by the four systems.
+                </p>
+          <div class="table-responsive" style="overflow-x: scroll">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Speaker</th>
+                  <th scope="col">NCC</th>
+                  <th scope="col">BWC</th>
+                  <th scope="col">LXC</th>
+                  <th scope="col">TXHC</th>
+                  <th scope="col">NCC</th>
+                  <th scope="col">BWC</th>
+                  <th scope="col">LXC</th>
+                  <th scope="col">TXHC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Text</th>
+                  <td>
+                    <p>call me that again, he murmured ecstatically</p>
+                  </td>
+                  <td>
+                    <p>ow, a wild dog, he growled.</p>
+                  </td>
+                  <td>
+                    <p>call me that again, he murmured ecstatically</p>
+                  </td>
+                  <td>
+                    <p>there's too much of the schoolboy in me.</p>
+                  </td>
+                  <td>
+                    <p>and then, steadily, he began to chew.</p>
+                  </td>
+                  <td>
+                    <p>but to culture the revolution thus far had exhausted the junta.</p>
+                  </td>
+                  <td>
+                    <p>here he got a fresh thrill.</p>
+                  </td>
+                  <td>
+                    <p>eggshell is not good to eat.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Source</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_a0397-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0152-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_a0397-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_a0459-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_b0138-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0224-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_b0337-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_b0517-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Baseline</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_a0397-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0152-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_a0397-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_a0459-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_b0138-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0224-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_b0337-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_b0517-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Proposed</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_a0397-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0152-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_a0397-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_a0459-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_b0138-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0224-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_b0337-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_b0517-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Ablation-1</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_a0397-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0152-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_a0397-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_a0459-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_b0138-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0224-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_b0337-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_b0517-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Ablation-2</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_a0397-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0152-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_a0397-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_a0459-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/NCC-arctic_b0138-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/BWC-arctic_b0224-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/LXC-arctic_b0337-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/accentedness/TXHC-arctic_b0517-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="lead">* please scroll horizontally to explore additional columns in the table.</p>
+        </div>
+        <div class="container pt-5 mt-5 shadow p-5 mb-5 bg-white rounded">
+          <h3>Speaker Similarity</h3>
+          <p class="lead">
+                In this task, we evaluate the speaker characteristics preserved by the four systems.
+                </p>
+          <div class="table-responsive" style="overflow-x: scroll">
+            <table class="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">Speaker</th>
+                  <th scope="col">NCC</th>
+                  <th scope="col">BWC</th>
+                  <th scope="col">LXC</th>
+                  <th scope="col">TXHC</th>
+                  <th scope="col">NCC</th>
+                  <th scope="col">BWC</th>
+                  <th scope="col">LXC</th>
+                  <th scope="col">TXHC</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Text</th>
+                  <td>
+                    <p>he would first hunt up gregson and begin his work there.</p>
+                  </td>
+                  <td>
+                    <p>we leave the eventuality to time and law.</p>
+                  </td>
+                  <td>
+                    <p>oppressive as the heat had been, it was now even more oppressive.</p>
+                  </td>
+                  <td>
+                    <p>thus had the raw wilderness prepared him for this day.</p>
+                  </td>
+                  <td>
+                    <p>but such divergence of opinion would constitute no menace to society.</p>
+                  </td>
+                  <td>
+                    <p>i cannot follow you, she said.</p>
+                  </td>
+                  <td>
+                    <p>the fourth and fifth days passed without any developments.</p>
+                  </td>
+                  <td>
+                    <p>one guess will do, ernest retorted.</p>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Source</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_a0070-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_b0200-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0217-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_a0199-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_b0465-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_a0232-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0064-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_b0462-Reference.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Baseline</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_a0070-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_b0200-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0217-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_a0199-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_b0465-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_a0232-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0064-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_b0462-baseline.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Proposed</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_a0070-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_b0200-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0217-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_a0199-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_b0465-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_a0232-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0064-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_b0462-diff_phnLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Ablation-1</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_a0070-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_b0200-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0217-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_a0199-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_b0465-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_a0232-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0064-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_b0462-diff_frmLoss_predPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row" style="position: sticky; left: 0; z-index:10; opacity: 1.0; background-color: white;">Ablation-2</th>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_a0070-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_b0200-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0217-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_a0199-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/NCC-arctic_b0465-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/BWC-arctic_a0232-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/LXC-arctic_a0064-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                  <td>
+                    <audio controls="" preload="none" style="width: 240px">
+                      <source src="./samples/spksim/TXHC-arctic_b0462-diff_phnLoss_origPE.wav" type="audio/wav">
+                    </audio>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="lead">* please scroll horizontally to explore additional columns in the table.</p>
+        </div>
+      </div>
+    </div>
+  
+    <script src="/statics/jquery/jquery-3.7.1.slim.min.js"></script>
+    <script src="/statics/bootstrap-5.2.3-dist/bootstrap.min.js"></script>
+  </body>
+  <script> $(function(){
+        $("audio").on("play", function() {
+            $("audio").not(this).each(function(index, audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            });
+        });
+    }); </script>
+</html>
